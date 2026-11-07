@@ -13,7 +13,7 @@ Unofficial Telegram client for the terminal.
 - Uses TDLib (via the `tdlib-rs` crate) to talk to Telegram's servers.
 - XDG-compliant config and data directories.
 - Tracing-based logging with a strict no-secrets policy.
-- Opus of a clean workspace: `tgcrab-core` (logic, no UI) and
+- Clean workspace layout: `tgcrab-core` (logic, no UI) and
   `tgcrab-cli` (the `tgcrab` binary).
 
 ## Quickstart
@@ -27,9 +27,20 @@ cargo run -p tgcrab-cli -- --version
 
 ## Status
 
-Scaffold / pre-release. The workspace builds and the CLI responds to
+Bootstrap complete (Phase 6 of the initial plan): workspace builds,
+TDLib smoke test passes (`cargo test`), and the CLI responds to
 `--help` / `--version`. Login, chats, history, and sending are planned
 for later milestones.
+
+## Milestone 1 plan: login flow
+
+- Phone-number login: prompt for phone, request code, accept the code
+  from stdin, optional 2FA password.
+- Optional QR login via `tdlib-rs` updates (`qrCode` / `updateLoginWithQrCode`).
+- Session persists through TDLib's encrypted database (key in the OS
+  keyring, fallback `TGCRAB_DB_KEY`).
+- CLI commands `chats`, `history`, `send`, `me`, `logout` arrive in
+  milestone 2.
 
 ## License
 
