@@ -42,3 +42,7 @@ logs/
 
 # Downloaded media
 downloads/
+
+# Local scaffold tooling (not part of the repo)
+TASK.md
+*.scaffold-state

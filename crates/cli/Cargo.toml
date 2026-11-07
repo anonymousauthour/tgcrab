@@ -1,0 +1,20 @@
+[package]
+name = "tgcrab-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description.workspace = true
+homepage.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "tgcrab"
+path = "src/main.rs"
+
+[dependencies]
+tgcrab-core.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

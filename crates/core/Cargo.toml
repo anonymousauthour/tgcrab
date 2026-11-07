@@ -1,0 +1,18 @@
+[package]
+name = "tgcrab-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description.workspace = true
+homepage.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+thiserror.workspace = true
+tracing.workspace = true
+directories.workspace = true
+
+[dev-dependencies]
+# TODO(Phase 3): add tdlib-rs = { version = "1.4.0", features = ["download-tdlib"] }
+# for the no-account smoke test (getOption "version" / getCurrentState).
