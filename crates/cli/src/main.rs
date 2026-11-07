@@ -3,8 +3,15 @@
 //! Phase 5 smoke run: `--version` and `--help` work, with a placeholder list
 //! of subcommands. Real subcommands (login, chats, history, send, me,
 //! logout) land in later milestones.
+//!
+//! Startup validates Telegram API credentials (Phase 4) so misconfiguration
+//! fails with a clear message pointing at https://my.telegram.org instead of
+//! a cryptic TDLib error. The check is deferred behind `--help`/`--version`
+//! handling so those keep working offline.
 
 use clap::{Parser, Subcommand};
+
+use tgcrab_core::config;
 
 /// Unofficial Telegram client for the terminal.
 #[derive(Debug, Parser)]
@@ -34,12 +41,30 @@ enum Commands {
     Logout,
 }
 
-fn main() {
+fn init_tracing() {
     tracing_subscriber::fmt()
         .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
         .init();
+}
 
+fn main() {
+    // Parse first so `--help` / `--version` exit before any config check
+    // (clap handles those during `parse` via early exit).
     let cli = Cli::parse();
+
+    init_tracing();
+    tracing::debug!("tgcrab starting");
+
+    // Startup config validation (Phase 4): fail fast with a clear message
+    // when API credentials are missing. Placeholder subcommands only need
+    // this check when they actually talk to TDLib; for now we validate
+    // eagerly so operators notice misconfiguration immediately.
+    if let Err(err) = config::load() {
+        tracing::error!("{err}");
+        eprintln!("error: {err}");
+        std::process::exit(1);
+    }
+    tracing::debug!("telegram api credentials present");
 
     match cli.command {
         Some(cmd) => {

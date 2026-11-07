@@ -20,3 +20,7 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
 directories = "6"
 clap = { version = "4", features = ["derive"] }
+tdlib-rs = { version = "1.4.0", features = ["download-tdlib"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time"] }
+rand = "0.9"
+keyring = "4"
